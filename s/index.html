@@ -1,54 +1,212 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recomendações de Personagens</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recomendações</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      background: url("fundo.gif") center/cover no-repeat fixed;
+      color: #fff;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0,0,0,0.45);
+      z-index: 0;
+    }
+
+    body > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background-color: #444;
+      padding: 14px 20px;
+      font-size: 0.95em;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .header-content h1 {
+      font-size: 1.35rem;
+      margin: 0;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-form input[type="search"],
+    .search-form-gallery input[type="search"] {
+      padding: 4px 8px;
+      font-size: 0.85em;
+      border-radius: 4px;
+      border: 1px solid #aaa;
+    }
+
+    .search-form button,
+    .search-form-gallery button {
+      padding: 4px 10px;
+      font-size: 0.85em;
+      background-color: #555;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .login-links a {
+      color: #fff;
+      margin-left: 8px;
+      text-decoration: none;
+      font-size: 0.85em;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .character-gallery-container {
+      padding: 12px;
+      max-width: 1000px;
+      width: 90%;
+    }
+
+    .search-form-gallery {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .character-gallery {
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .character-gallery ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .character-gallery li {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      width: 200px;
+      height: 200px;
+      flex: 0 0 auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .character-gallery li img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .character-gallery li p {
+      position: absolute;
+      bottom: 0;
+      margin: 0;
+      width: 100%;
+      padding: 6px 0;
+      text-align: center;
+      font-size: 0.9em;
+      font-weight: bold;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .character-gallery li:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      background-color: #444;
+      color: #fff;
+      text-align: center;
+      font-size: 0.85em;
+      padding: 8px 16px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Recomendações de Personagens</h1>
-            <div class="header-actions">
-                <form class="search-form">
-                    <input type="search" placeholder="Pesquisar personagens...">
-                    <button type="submit">Pesquisar</button>
-                </form>
-                <div class="login-links">
-                    <a href="#">Login</a> | <a href="#">Criar conta</a>
-                </div>
-            </div>
+  <header>
+    <div class="header-content">
+      <h1>Recomendações</h1>
+      <div class="header-actions">
+        <form class="search-form">
+          <input type="search" placeholder="Buscar..." />
+          <button type="submit">OK</button>
+        </form>
+        <div class="login-links">
+          <a href="#">Login</a> | <a href="#">Criar conta</a>
         </div>
-    </header>
+      </div>
+    </div>
+  </header>
 
-    <main>
-        <section class="character-gallery-container">
-            <form class="search-form-gallery">
-                <input type="search" placeholder="Pesquisar personagens na galeria...">
-                <button type="submit">Pesquisar</button>
-            </form>
-            <div class="character-gallery">
-                <ul id="character-list">
-                    <li>Personagem 1</li>
-                    <li>Personagem 2</li>
-                    <li>Personagem 3</li>
-                    <li>Personagem 4</li>
-                    <li>Personagem 5</li>
-                    <li>Personagem 6</li>
-                    <li>Personagem 7</li>
-                    <li>Personagem 8</li>
-                    <li>Personagem 9</li>
-                    <li>Personagem 10</li>
-                </ul>
-            </div>
-        </section>
-    </main>
+  <main>
+    <section class="character-gallery-container">
+      <form class="search-form-gallery">
+        <input type="search" placeholder="Filtrar personagens..." />
+        <button type="submit">Buscar</button>
+      </form>
+      <div class="character-gallery">
+        <ul id="character-list">
+          <li><img src="personagem1.jpeg" alt="Personagem 1"><p>Personagem 1</p></li>
+          <li><img src="personagem2.jpeg" alt="Personagem 2"><p>Personagem 2</p></li>
+          <li><img src="personagem3.jpeg" alt="Personagem 3"><p>Personagem 3</p></li>
+          <li><img src="personagem4.jpeg" alt="Personagem 4"><p>Personagem 4</p></li>
+        </ul>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-        <p>&copy; 2024 Quadro de Recomendações</p>
-    </footer>
+  <footer>
+    <p>&copy; 2024 Quadro de Recomendações</p>
+  </footer>
 
-    <script src="script.js"></script>
+  <script>
+    document.querySelectorAll("form").forEach(form => {
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        const term = form.querySelector("input[type='search']").value.toLowerCase();
+        document.querySelectorAll("#character-list li").forEach(li => {
+          li.style.display = li.textContent.toLowerCase().includes(term) ? "inline-block" : "none";
+        });
+      });
+    });
+  </script>
 </body>
 </html>
